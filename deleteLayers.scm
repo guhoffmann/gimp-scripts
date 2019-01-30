@@ -12,10 +12,12 @@
 	(script-fu-delete-layers activeImage)
 	(let*
 		(	;+++ variable declarations for let* block +++
-			(layerList (cdr (gimp-image-get-layers activeImage)))
 			;all variables declared here!
 			(i 0) ;iterator variable
 			(numLayers (car (gimp-image-get-layers activeImage)))
+			(allLayers (cadr (gimp-image-get-layers activeImage)))
+			(aktLayer)
+			(item)
 
 		)	;--- end of variable declarations for let* block ---
 
@@ -23,12 +25,19 @@
 		(gimp-image-undo-group-start activeImage)
 
 		;display number of Layers
-		(gimp-message (number->string numLayers))
+		;(gimp-message (string-append "Num. of Layers: " (number->string numLayers)))
 		
-		 (for el in layerList)
+		(while (< i numLayers)
+			;(set! aktLayer (cadr (gimp-image-get-layers activeImage)))
+			;(set! aktLayer (car allLayers))
+			(set! item (aref allLayers i))
 
+			;(if (equal? (gimp-item-get-visible item) 0)
+				(gimp-image-remove-layer activeImage item)
+			;)
+			;(set! allLayers (cdr allLayers))
+			(set! i (+ i 1)) 
 		)
-
     	; mark the end of the undo group -----------------------------------------
 		(gimp-image-undo-group-end activeImage)
 
