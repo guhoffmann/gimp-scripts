@@ -1,0 +1,110 @@
+;******************************************************************************
+; Create a 'starfield' picture in a new layer of the current image!
+; Place this script in:
+; 	~/.config/GIMP/2.xx/scripts for normal GIMP installations
+;  ~/snap/gimp/current/.config/GIMP/2.xx/scripts for snapcraft installations
+;******************************************************************************
+
+(define
+	(script-fu-stars activeImage numStars maxSize seedStars sparkleStars)
+	(let*
+		(	;+++ variable declarations for let* block +++
+
+			;all variables declared here!
+			(imageHeight (car (gimp-image-height activeImage)))
+			(imageWidth (car (gimp-image-width activeImage)))
+			(brushSize (car (gimp-context-get-brush-size)))
+			(brushName (car (gimp-context-get-brush)))
+			(starLayer)
+			(starX)
+			(starY)
+			(minSize 1)
+			(sizeDiff (- maxSize minSize))
+			(points (cons-array 4 'double))
+			(i 0) ;iterator variable
+		)	;--- end of variable declarations for let* block ---
+
+		(set! starLayer (car (gimp-layer-new
+							activeImage
+							imageWidth
+							imageHeight
+							RGB-IMAGE
+							"StarLayer"
+							100
+							0	; don't use NORMAL as in orig. tut 'cause Gimp 2.10 won't recognize it!		
+		)))
+
+		;save original context
+		(gimp-context-push)
+
+		;start group for undo +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		(gimp-image-undo-group-start activeImage)
+
+		(gimp-image-add-layer activeImage starLayer 0) ;add layer to image
+		(srand seedStars)	;do random seed
+		
+		;make the sparkling stars background
+		(plug-in-randomize-hurl 1 activeImage starLayer 50 1 FALSE seedStars)
+		(gimp-drawable-desaturate starLayer 0)
+		(gimp-drawable-levels starLayer 0 (- 1 (* 0.0008 numStars)) 1 TRUE 1 0 1 TRUE)
+
+		;set the white foreground color
+		(gimp-palette-set-foreground '(255 255 255))
+		;now draw bigger stars with a brush 'manually'
+		(gimp-context-set-brush "2. Hardness 100")
+		;do the star drawing loop
+		(while (< i numStars)
+			(set! starX (random imageWidth))
+			(set! starY (random imageHeight))
+			(aset points 0 starX)
+			(aset points 1 starY)
+			(aset points 2 starX)
+			(aset points 3 starY)
+			(gimp-context-set-brush-size (+ minSize (random sizeDiff)))
+			(gimp-paintbrush-default starLayer 4 points)
+			(gimp-progress-update (/ i numStars))
+			(set! i (+ i 1))
+		)
+		;make the stars better visible
+		(gimp-drawable-brightness-contrast starLayer 0.5 0.5)
+
+		;now add some sprkle if selected
+		(if (equal? sparkleStars 1)
+			(plug-in-sparkle 1 activeImage starLayer 0.002 0.5 10 4 15 0.02 0.0 0.0 0.0 0 0 0 0 )	
+		)
+    	; mark the end of the undo group -----------------------------------------
+		(gimp-image-undo-group-end activeImage)
+
+		;restore original settings
+		(gimp-context-pop)
+
+		;Flush display to see the result!!!
+		(gimp-displays-flush) 
+ 	
+		;--- end of actions for script-fu-laser ---
+
+	);of let*
+
+); of define = end of the function script-fu-laser
+
+;Register the function to gimp database
+(script-fu-register
+	"script-fu-stars"								;func name
+	"Uwes Sterne"									;menu label
+	"Layer mit Sternenhimmel erzeugen"		;description
+	"Uwe Hoffmann"									;author
+	"(c) 2019 Uwe Hoffmann"						;copyright notice
+	"27. Januar 2019"								;date created
+	""													;image type that the script works on
+	SF-IMAGE "Image" 0
+	;SF-ADJUSTMENT: startVal lowLimit upLimit inc/dec pageInc/pageDec digits type
+	SF-ADJUSTMENT "Dichte" (list 112 10 300 1 10 0 SF-SPINNER)
+	SF-ADJUSTMENT "Größe max." (list 2 1 8 1 1 0 SF-SPINNER)
+	SF-ADJUSTMENT "Random-Seed" (list 1111 0 5000 1 100 0 SF-SPINNER)
+	SF-TOGGLE "Funkeln" TRUE
+)
+		(gimp-progress-set-text "Calculating stars...")
+
+;Register how to call script in Gimp
+(script-fu-menu-register "script-fu-stars" "<Image>/Uwes")
+
