@@ -5,8 +5,11 @@
 ;  ~/snap/gimp/current/.config/GIMP/2.xx/scripts for snapcraft installations
 ;******************************************************************************
 
+;******************************************************************************
+; Define the main function for the script
+
 (define
-	(script-fu-stars activeImage numStars maxSize seedStars sparkleStars)
+	(script-fu-stars activeImage numStars maxSize detail seedStars)
 	(let*
 		(	;+++ variable declarations for let* block +++
 
@@ -22,16 +25,19 @@
 			(sizeDiff (- maxSize minSize))
 			(points (cons-array 4 'double))
 			(i 0) ;iterator variable
+
 		)	;--- end of variable declarations for let* block ---
 
-		(set! starLayer (car (gimp-layer-new
-							activeImage
-							imageWidth
-							imageHeight
-							RGB-IMAGE
-							"StarLayer"
-							100
-							0	; don't use NORMAL as in orig. tut 'cause Gimp 2.10 won't recognize it!		
+		(set! starLayer
+			(car
+				(gimp-layer-new
+					activeImage
+					imageWidth
+					imageHeight
+					RGB-IMAGE
+					"StarLayer"
+					100
+					0 ;don't use NORMAL as in orig. tut 'cause Gimp 2.10 won't recognize it!		
 		)))
 
 		;save original context
@@ -41,7 +47,7 @@
 		(gimp-image-undo-group-start activeImage)
 
 		(gimp-image-add-layer activeImage starLayer 0) ;add layer to image
-		(srand seedStars)	;do random seed
+		(srand seedStars)	;do random seRed
 		
 		;make the sparkling stars background
 		(plug-in-randomize-hurl 1 activeImage starLayer 50 1 FALSE seedStars)
@@ -65,13 +71,20 @@
 			(gimp-progress-update (/ i numStars))
 			(set! i (+ i 1))
 		)
-		;make the stars better visible
+		;make the stars better visibleR
 		(gimp-drawable-brightness-contrast starLayer 0.5 0.5)
 
-		;now add some sprkle if selected
-		(if (equal? sparkleStars 1)
-			(plug-in-sparkle 1 activeImage starLayer 0.002 0.5 10 4 15 0.02 0.0 0.0 0.0 0 0 0 0 )	
+		;now add sparkling details according to selection
+		(if (> detail 0)
+			(plug-in-sparkle 1 activeImage starLayer 0.002 0.5 6 4 15 0.02 0.0 0.0 0.0 0 0 0 0 )	
 		)
+		(if (> detail 1)
+			(plug-in-sparkle 1 activeImage starLayer 0.00015 0.5 8 4 15 0.02 0.0 0.0 0.0 0 0 0 0 )	
+		)
+		(if (> detail 2)
+			(plug-in-sparkle 1 activeImage starLayer 0.00015 0.5 10 4 15 0.02 0.0 0.0 0.0 0 0 0 0 )	
+		)
+
     	; mark the end of the undo group -----------------------------------------
 		(gimp-image-undo-group-end activeImage)
 
@@ -87,24 +100,29 @@
 
 ); of define = end of the function script-fu-laser
 
-;Register the function to gimp database
+;******************************************************************************
+;  Register the function to gimp database
+
 (script-fu-register
 	"script-fu-stars"								;func name
-	"Uwes Sterne"									;menu label
-	"Layer mit Sternenhimmel erzeugen"		;description
+	"Uwes Stars"									;menu label
+"Add a layer full of stars to the current image.\
+If you have an image opened/created, this one adds a layer with a black and white starfield.\
+You can create different pseudo random distributed starfields by changing then Random-Seed setting.\
+If you set the 'Sparkle' to '0', same Random-Seed always creates the same picture."	;description
 	"Uwe Hoffmann"									;author
 	"(c) 2019 Uwe Hoffmann"						;copyright notice
 	"27. Januar 2019"								;date created
 	""													;image type that the script works on
 	SF-IMAGE "Image" 0
-	;SF-ADJUSTMENT: startVal lowLimit upLimit inc/dec pageInc/pageDec digits type
-	SF-ADJUSTMENT "Dichte" (list 112 10 300 1 10 0 SF-SPINNER)
-	SF-ADJUSTMENT "Größe max." (list 2 1 8 1 1 0 SF-SPINNER)
-	SF-ADJUSTMENT "Random-Seed" (list 1111 0 5000 1 100 0 SF-SPINNER)
-	SF-TOGGLE "Funkeln" TRUE
+	SF-ADJUSTMENT "Density" 			'(80 10 300 1 10 0 SF-SPINNER)
+	SF-ADJUSTMENT "Star size  max."	'(3 1 5 1 1 0 SF-SPINNER)
+	SF-ADJUSTMENT "Sparkle" 			'(2 0 3 1 1 0 SF-SPINNER)
+	SF-ADJUSTMENT "Random-Seed"		'(1111 0 111111 1 100 0 SF-SPINNER)
 )
-		(gimp-progress-set-text "Calculating stars...")
 
-;Register how to call script in Gimp
+;******************************************************************************
+; Register how to call script in Gimp
+
 (script-fu-menu-register "script-fu-stars" "<Image>/Uwes")
 
