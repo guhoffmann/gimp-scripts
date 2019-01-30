@@ -12,21 +12,22 @@
 	(script-fu-delete-layers activeImage)
 	(let*
 		(	;+++ variable declarations for let* block +++
-			(layerList '())
+			(layerList (cdr (gimp-image-get-layers activeImage)))
 			;all variables declared here!
 			(i 0) ;iterator variable
+			(numLayers (car (gimp-image-get-layers activeImage)))
 
 		)	;--- end of variable declarations for let* block ---
 
 		;start group for undo +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		(gimp-image-undo-group-start activeImage)
 
-		(set! layerList (car (gimp-image-get-layers activeImage)))
+		;display number of Layers
+		(gimp-message (number->string numLayers))
+		
+		 (for el in layerList)
 
-		(gimp-message "This is the one!")
-		(gimp-message "This is the one!")
-		;(iterate (for el in layerList)
-		;)
+		)
 
     	; mark the end of the undo group -----------------------------------------
 		(gimp-image-undo-group-end activeImage)
@@ -38,7 +39,6 @@
 
 	);of let*
 
-		(gimp-message "This is the one!")
 ); of define
 
 ;******************************************************************************
@@ -53,7 +53,6 @@
 	"27. Januar 2019"								;date created
 	""													;image type that the script works on
 	SF-IMAGE "Image" 0
-		(gimp-message "This is the one!")
 	;SF-TOGGLE "Dummy" 1
 )
 

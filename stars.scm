@@ -21,6 +21,7 @@
 			(starLayer)
 			(starX)
 			(starY)
+			(starCol)
 			(minSize 1)
 			(sizeDiff (- maxSize minSize))
 			(points (cons-array 4 'double))
@@ -55,13 +56,15 @@
 		(gimp-drawable-levels starLayer 0 (- 1 (* 0.0008 numStars)) 1 TRUE 1 0 1 TRUE)
 
 		;set the white foreground color
-		(gimp-palette-set-foreground '(255 255 255))
+		;(gimp-palette-set-foreground '(255 255 255))
 		;now draw bigger stars with a brush 'manually'
 		(gimp-context-set-brush "2. Hardness 100")
 		;do the star drawing loop
 		(while (< i numStars)
 			(set! starX (random imageWidth))
 			(set! starY (random imageHeight))
+			(set! starCol (+ 128 (random 128)))
+			(gimp-palette-set-foreground (list starCol starCol starCol))
 			(aset points 0 starX)
 			(aset points 1 starY)
 			(aset points 2 starX)
@@ -98,7 +101,7 @@
 
 	);of let*
 
-); of define = end of the function script-fu-laser
+); of define = end of the function script-fu-stars
 
 ;******************************************************************************
 ;  Register the function to gimp database
