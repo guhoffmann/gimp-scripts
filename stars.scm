@@ -66,7 +66,7 @@
 			(set! starX (random imageWidth))
 			(set! starY (random imageHeight))
 			(set! starCol (+ 96 (random 160)))
-			(gimp-palette-set-foreground (list starCol starCol starCol))
+			(gimp-context-set-foreground (list starCol starCol starCol))
 			(aset points 0 starX)
 			(aset points 1 starY)
 			(aset points 2 starX)
