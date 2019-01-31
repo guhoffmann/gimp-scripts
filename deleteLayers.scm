@@ -23,9 +23,10 @@
 
 		;start group for undo +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		(gimp-image-undo-group-start activeImage)
-
+		
 		;display number of Layers
-		;(gimp-message (string-append "Num. of Layers: " (number->string numLayers)))
+		(gimp-message-set-handler 2)
+		(gimp-message (string-append "Num. of Layers: " (number->string numLayers)))
 		
 		(while (< i numLayers)
 			;(set! aktLayer (cadr (gimp-image-get-layers activeImage)))
@@ -33,7 +34,8 @@
 			(set! item (aref allLayers i))
 
 			;(if (equal? (gimp-item-get-visible item) 0)
-				(gimp-image-remove-layer activeImage item)
+			(gimp-image-remove-layer activeImage item)
+			;(gimp-message (number->string (gimp-layer-get-visible item)) )
 			;)
 			;(set! allLayers (cdr allLayers))
 			(set! i (+ i 1)) 
