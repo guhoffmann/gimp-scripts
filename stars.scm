@@ -9,7 +9,7 @@
 ; Define the main function for the script
 
 (define
-	(script-fu-stars activeImage numStars maxSize detail seedStars)
+	(script-fu-stars activeImage numStars maxSize sparkle seedStars)
 	(let*
 		(	;+++ variable declarations for let* block +++
 
@@ -23,6 +23,7 @@
 			(starY)
 			(starCol)
 			(minSize 1)
+			(sparkleFak 0.02)
 			(sizeDiff (- maxSize minSize))
 			(points (cons-array 4 'double))
 			(i 0) ;iterator variable
@@ -59,11 +60,12 @@
 		;(gimp-palette-set-foreground '(255 255 255))
 		;now draw bigger stars with a brush 'manually'
 		(gimp-context-set-brush "2. Hardness 100")
+
 		;do the star drawing loop
 		(while (< i numStars)
 			(set! starX (random imageWidth))
 			(set! starY (random imageHeight))
-			(set! starCol (+ 128 (random 128)))
+			(set! starCol (+ 96 (random 160)))
 			(gimp-palette-set-foreground (list starCol starCol starCol))
 			(aset points 0 starX)
 			(aset points 1 starY)
@@ -78,14 +80,17 @@
 		(gimp-drawable-brightness-contrast starLayer 0.5 0.5)
 
 		;now add sparkling details according to selection
-		(if (> detail 0)
-			(plug-in-sparkle 1 activeImage starLayer 0.002 0.5 6 4 15 0.02 0.0 0.0 0.0 0 0 0 0 )	
+		(if (> sparkle 3)
+			(set! sparkleFak 0.04)
 		)
-		(if (> detail 1)
-			(plug-in-sparkle 1 activeImage starLayer 0.00015 0.5 8 4 15 0.02 0.0 0.0 0.0 0 0 0 0 )	
+		(if (> sparkle 0)
+			(plug-in-sparkle 1 activeImage starLayer 0.002 0.5 6 4 15 sparkleFak 0.0 0.0 0.0 0 0 0 0 )	
 		)
-		(if (> detail 2)
-			(plug-in-sparkle 1 activeImage starLayer 0.00015 0.5 10 4 15 0.02 0.0 0.0 0.0 0 0 0 0 )	
+		(if (> sparkle 1)
+			(plug-in-sparkle 1 activeImage starLayer 0.002 0.5 8 4 15 sparkleFak 0.0 0.0 0.0 0 0 0 0 )	
+		)
+		(if (> sparkle 2)
+			(plug-in-sparkle 1 activeImage starLayer 0.002 0.5 10 4 15 sparkleFak 0.0 0.0 0.0 0 0 0 0 )	
 		)
 
     	; mark the end of the undo group -----------------------------------------
@@ -120,7 +125,7 @@ If you set the 'Sparkle' to '0', same Random-Seed always creates the same pictur
 	SF-IMAGE "Image" 0
 	SF-ADJUSTMENT "Density" 			'(80 10 300 1 10 0 SF-SPINNER)
 	SF-ADJUSTMENT "Star size  max."	'(3 1 5 1 1 0 SF-SPINNER)
-	SF-ADJUSTMENT "Sparkle" 			'(2 0 3 1 1 0 SF-SPINNER)
+	SF-ADJUSTMENT "Sparkle" 			'(2 0 4 1 1 0 SF-SPINNER)
 	SF-ADJUSTMENT "Random-Seed"		'(1111 0 111111 1 100 0 SF-SPINNER)
 )
 
