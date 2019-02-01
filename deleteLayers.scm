@@ -81,5 +81,5 @@
 ;*******************************************************************************
 ; Register how to call script in Gimp
 
-(script-fu-menu-register "script-fu-delete-layers" "<Image>/Uwes-Sripts")
+(script-fu-menu-register "script-fu-delete-layers" "<Image>/Uwes-Scripts")
 
