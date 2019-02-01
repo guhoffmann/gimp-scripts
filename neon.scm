@@ -40,7 +40,8 @@
  		; -- end of actions
 
 	);of let*
-); of define = end of the function script-fu-text-box
+
+); of define script-fu-neon
 
 ;Register the function to gimp database
 	
@@ -58,5 +59,5 @@
 )
 
 ;Register how to call script in Gimp
-(script-fu-menu-register "script-fu-neon" "<Image>/Uwes")
+(script-fu-menu-register "script-fu-neon" "<Image>/Uwes-Scripts")
 

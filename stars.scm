@@ -102,18 +102,18 @@
 		;Flush display to see the result!!!
 		(gimp-displays-flush) 
  	
-		;--- end of actions for script-fu-laser ---
+		;--- end of actions for script-fu-stars ---
 
 	);of let*
 
-); of define = end of the function script-fu-stars
+); of define script-fu-stars
 
 ;******************************************************************************
 ;  Register the function to gimp database
 
 (script-fu-register
 	"script-fu-stars"								;func name
-	"Uwes Stars"									;menu label
+	"Starfield"										;menu label
 "Add a layer full of stars to the current image.\
 If you have an image opened/created, this one adds a layer with a black and white starfield.\
 You can create different pseudo random distributed starfields by changing then Random-Seed setting.\
@@ -132,5 +132,5 @@ If you set the 'Sparkle' to '0', same Random-Seed always creates the same pictur
 ;******************************************************************************
 ; Register how to call script in Gimp
 
-(script-fu-menu-register "script-fu-stars" "<Image>/Uwes")
+(script-fu-menu-register "script-fu-stars" "<Image>/Uwes-Scripts")
 
