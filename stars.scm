@@ -76,7 +76,8 @@
 			(gimp-progress-update (/ i numStars))
 			(set! i (+ i 1))
 		)
-		;make the stars better visibleR
+
+		;make the stars better visible
 		(gimp-drawable-brightness-contrast starLayer 0.5 0.5)
 
 		;now add sparkling details according to selection
@@ -126,7 +127,7 @@ If you set the 'Sparkle' to '0', same Random-Seed always creates the same pictur
 	SF-ADJUSTMENT "Density" 			'(80 10 300 1 10 0 SF-SPINNER)
 	SF-ADJUSTMENT "Star size  max."	'(3 1 5 1 1 0 SF-SPINNER)
 	SF-ADJUSTMENT "Sparkle" 			'(2 0 4 1 1 0 SF-SPINNER)
-	SF-ADJUSTMENT "Random-Seed"		'(1111 0 111111 1 100 0 SF-SPINNER)
+	SF-ADJUSTMENT "Random-Seed"		'(1114 0 111111 1 100 0 SF-SPINNER)
 )
 
 ;******************************************************************************
