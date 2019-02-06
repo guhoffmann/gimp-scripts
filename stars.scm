@@ -25,7 +25,7 @@
 			(minSize 1)
 			(sparkleFak 0.02)
 			(sizeDiff (- maxSize minSize))
-			(points (cons-array 4 'double))
+			(points (cons-array 2 'double))
 			(i 0) ;iterator variable
 
 		)	;--- end of variable declarations for let* block ---
@@ -69,10 +69,10 @@
 			(gimp-context-set-foreground (list starCol starCol starCol))
 			(aset points 0 starX)
 			(aset points 1 starY)
-			(aset points 2 starX)
-			(aset points 3 starY)
+			;(aset points 2 starX)
+			;(aset points 3 starY)
 			(gimp-context-set-brush-size (+ minSize (random sizeDiff)))
-			(gimp-paintbrush-default starLayer 4 points)
+			(gimp-paintbrush-default starLayer 2 points)
 			(gimp-progress-update (/ i numStars))
 			(set! i (+ i 1))
 		)
@@ -124,7 +124,7 @@ If you set the 'Sparkle' to '0', same Random-Seed always creates the same pictur
 	"27. Januar 2019"								;date created
 	""													;image type that the script works on
 	SF-IMAGE "Image" 0
-	SF-ADJUSTMENT "Density" 			'(80 10 300 1 10 0 SF-SPINNER)
+	SF-ADJUSTMENT "Density" 			'(80 10 3000 1 10 0 SF-SPINNER)
 	SF-ADJUSTMENT "Star size  max."	'(3 1 5 1 1 0 SF-SPINNER)
 	SF-ADJUSTMENT "Sparkle" 			'(2 0 4 1 1 0 SF-SPINNER)
 	SF-ADJUSTMENT "Random-Seed"		'(1114 0 111111 1 100 0 SF-SPINNER)
