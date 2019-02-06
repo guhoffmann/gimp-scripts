@@ -48,7 +48,7 @@
 		;start group for undo +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		(gimp-image-undo-group-start activeImage)
 
-		(gimp-image-add-layer activeImage starLayer 0) ;add layer to image
+		(gimp-image-insert-layer activeImage starLayer 0 0) ;add layer to image
 		(srand seedStars)	;do random seRed
 		
 		;make the sparkling stars background
