@@ -30,6 +30,10 @@
 
 		)	;--- end of variable declarations for let* block ---
 
+		(if (equal? sizeDiff 0) 
+			(set! sizeDiff 1)
+		)
+
 		(set! starLayer
 			(car
 				(gimp-layer-new
@@ -124,7 +128,7 @@ If you set the 'Sparkle' to '0', same Random-Seed always creates the same pictur
 	"27. Januar 2019"								;date created
 	""													;image type that the script works on
 	SF-IMAGE "Image" 0
-	SF-ADJUSTMENT "Density" 			'(80 10 3000 1 10 0 SF-SPINNER)
+	SF-ADJUSTMENT "Density" 			'(80 10 1111 1 10 0 SF-SPINNER)
 	SF-ADJUSTMENT "Star size  max."	'(3 1 5 1 1 0 SF-SPINNER)
 	SF-ADJUSTMENT "Sparkle" 			'(2 0 4 1 1 0 SF-SPINNER)
 	SF-ADJUSTMENT "Random-Seed"		'(1114 0 111111 1 100 0 SF-SPINNER)
