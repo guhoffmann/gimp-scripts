@@ -137,5 +137,5 @@ If you set the 'Sparkle' to '0', same Random-Seed always creates the same pictur
 ;******************************************************************************
 ; Register how to call script in Gimp
 
-(script-fu-menu-register "script-fu-stars" "<Image>/Uwes-Scripts")
+(script-fu-menu-register "script-fu-stars" "<Image>/Uwes-Extensions")
 

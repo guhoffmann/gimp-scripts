@@ -59,5 +59,5 @@
 )
 
 ;Register how to call script in Gimp
-(script-fu-menu-register "script-fu-neon" "<Image>/Uwes-Scripts")
+(script-fu-menu-register "script-fu-neon" "<Image>/Uwes-Extensions")
 
