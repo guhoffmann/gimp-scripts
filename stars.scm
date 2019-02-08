@@ -68,7 +68,6 @@
 
 		(if (< speckleInstalled 1)
 			;do the star drawing loop without speckle
-			(begin  
 				(while (< i numStars)
 					(set! starX (random imageWidth))
 					(set! starY (random imageHeight))
@@ -83,14 +82,11 @@
 					(gimp-progress-update (/ i numStars))
 					(set! i (+ i 1))
 				)
-			)
 			;do it with speckle-plugin
 			(begin
-				(
-					(gimp-context-set-brush-size minSize)
-					(gimp-context-set-foreground '(255 255 255))
-					(plug-in-speckle 1 activeImage starLayer numStars sizeDiff 160 seedStars)
-				)
+				(gimp-context-set-brush-size minSize)
+				(gimp-context-set-foreground '(255 255 255))
+				(plug-in-speckle 1 activeImage starLayer numStars sizeDiff 160 seedStars)
 			)
 		)
 
