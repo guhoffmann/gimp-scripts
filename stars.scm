@@ -25,6 +25,7 @@
 			(minSize 1)
 			(sparkleFak 0.02)
 			(sizeDiff (- maxSize minSize))
+			(speckleInstalled (car (gimp-procedural-db-proc-exists "plug-in-speckle")))
 			(points (cons-array 2 'double))
 			(i 0) ;iterator variable
 
@@ -65,20 +66,32 @@
 		;now draw bigger stars with a brush 'manually'
 		(gimp-context-set-brush "2. Hardness 100")
 
-		;do the star drawing loop
-		(while (< i numStars)
-			(set! starX (random imageWidth))
-			(set! starY (random imageHeight))
-			(set! starCol (+ 96 (random 160)))
-			(gimp-context-set-foreground (list starCol starCol starCol))
-			(aset points 0 starX)
-			(aset points 1 starY)
-			;(aset points 2 starX)
-			;(aset points 3 starY)
-			(gimp-context-set-brush-size (+ minSize (random sizeDiff)))
-			(gimp-paintbrush-default starLayer 2 points)
-			(gimp-progress-update (/ i numStars))
-			(set! i (+ i 1))
+		(if (< speckleInstalled 1)
+			;do the star drawing loop without speckle
+			(begin  
+				(while (< i numStars)
+					(set! starX (random imageWidth))
+					(set! starY (random imageHeight))
+					(set! starCol (+ 96 (random 160)))
+					(gimp-context-set-foreground (list starCol starCol starCol))
+					(aset points 0 starX)
+					(aset points 1 starY)
+					;(aset points 2 starX)
+					;(aset points 3 starY)
+					(gimp-context-set-brush-size (+ minSize (random sizeDiff)))
+					(gimp-paintbrush-default starLayer 2 points)
+					(gimp-progress-update (/ i numStars))
+					(set! i (+ i 1))
+				)
+			)
+			;do it with speckle-plugin
+			(begin
+				(
+					(gimp-context-set-brush-size minSize)
+					(gimp-context-set-foreground '(255 255 255))
+					(plug-in-speckle 1 activeImage starLayer numStars sizeDiff 160 seedStars)
+				)
+			)
 		)
 
 		;make the stars better visible
