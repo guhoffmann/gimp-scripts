@@ -131,7 +131,8 @@
 "Add a layer full of stars to the current image.\
 If you have an image opened/created, this one adds a layer with a black and white starfield.\
 You can create different pseudo random distributed starfields by changing then Random-Seed setting.\
-If you set the 'Sparkle' to '0', same Random-Seed always creates the same picture."	;description
+If you set the 'Sparkle' to '0', same Random-Seed always creates the same picture.\
+- Version 19.02.09 -"	;description
 	"Uwe Hoffmann"									;author
 	"(c) 2019 Uwe Hoffmann"						;copyright notice
 	"27. Januar 2019"								;date created

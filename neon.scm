@@ -48,7 +48,8 @@
 (script-fu-register
 	"script-fu-neon"					;func name
 	"Neon light"						;menu label
-	"Mimic a simple neon light"	;description
+	"Mimic a simple neon light.\
+- Version 19.02.09 -"	;description
 	"Uwe Hoffmann"						;author
 	"(c) 2019 Uwe Hoffmann"			;copyright notice
 	"27. Januar 2019"					;date created

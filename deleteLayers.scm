@@ -66,13 +66,14 @@
 ;  Register the function to gimp database
 
 (script-fu-register
-	"script-fu-delete-layers"				;func name
+	"script-fu-delete-layers"					;func name
 	"Delete all layers"							;menu label
-	"Delete all layers visible/unvisible."	;description
-	"Uwe Hoffmann"								;author
-	"(c) 2019 Uwe Hoffmann"					;copyright notice
-	"27. Januar 2019"							;date created
-	""												;image type that the script works on
+	"Delete all layers visible/unvisible.\
+- Version 19.02.09 -"	;description
+	"Uwe Hoffmann"									;author
+	"(c) 2019 Uwe Hoffmann"						;copyright notice
+	"27. Januar 2019"								;date created
+	""													;image type that the script works on
 	SF-IMAGE "Image" 0
 	SF-TOGGLE "Delete UNVISIBLE layers" 1
 	SF-TOGGLE "Delete VISIBLE layers" 0
